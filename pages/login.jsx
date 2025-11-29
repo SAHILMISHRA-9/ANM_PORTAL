@@ -1,49 +1,43 @@
-import { useState } from 'react'
-import axios from 'axios'
-import { useRouter } from 'next/router'
-
+import { useState } from "react";
+import axios from "axios";
 
 export default function Login() {
-const [mobile, setMobile] = useState('')
-const [password, setPassword] = useState('')
-const router = useRouter()
+  const [role,setRole]=useState("anm");
+  const [mobile,setMobile]=useState("");
+  const [password,setPassword]=useState("");
 
+  async function handleLogin(e){
+    e.preventDefault();
 
-const handleSubmit = async (e) => {
-e.preventDefault()
-try {
-// call mock API
-const res = await axios.post('/api/auth/login', { mobile, password })
-if (res.data && res.data.token) {
-localStorage.setItem('anm_token', res.data.token)
-localStorage.setItem('anm_user', JSON.stringify(res.data.user))
-router.push('/dashboard')
-} else {
-alert('Login failed')
-}
-} catch (err) {
-alert('Login error')
-}
-}
+    const res=await axios.post("/api/auth/login",{role,mobile,password}).catch(()=>null);
+    if(!res || !res.data.success) return alert("Invalid credentials");
 
+    const {token,user} = res.data;
+    document.cookie=`auth_token=${token}; path=/;`;
+    document.cookie=`auth_role=${role}; path=/;`;
 
-return (
-<div className="min-h-screen flex items-center justify-center">
-<div className="w-full max-w-md bg-white rounded-lg shadow p-6">
-<h2 className="text-2xl font-bold mb-4 text-center">ANM Portal Login</h2>
-<form onSubmit={handleSubmit} className="space-y-4">
-<div>
-<label className="block text-sm">Mobile Number</label>
-<input value={mobile} onChange={e=>setMobile(e.target.value)} className="w-full border px-3 py-2 rounded" placeholder="Enter mobile" />
-</div>
-<div>
-<label className="block text-sm">Password</label>
-<input type="password" value={password} onChange={e=>setPassword(e.target.value)} className="w-full border px-3 py-2 rounded" placeholder="Enter password" />
-</div>
-<button className="w-full bg-blue-600 text-white py-2 rounded">Login</button>
-</form>
-<p className="mt-4 text-sm text-gray-500">Mock login: mobile: <b>9999999999</b> password: <b>anm123</b></p>
-</div>
-</div>
-)
+    if(role==="anm")      window.location.href="/dashboard";
+    if(role==="phc")      window.location.href="/phc-dashboard";
+    if(role==="doctor")   window.location.href="/doctor-dashboard";
+  }
+
+  return (
+    <div className="h-screen w-full flex justify-center items-center bg-gray-100">
+      <form className="bg-white p-6 rounded shadow w-80" onSubmit={handleLogin}>
+        <h2 className="text-xl font-bold mb-4 text-center">Login Portal</h2>
+
+        <label className="text-sm">Select Role</label>
+        <select value={role} onChange={e=>setRole(e.target.value)} className="w-full border p-2 mb-3">
+          <option value="anm">ANM</option>
+          <option value="phc">PHC Officer</option>
+          <option value="doctor">Doctor</option>
+        </select>
+
+        <input className="w-full p-2 border mb-3" placeholder="Mobile No" value={mobile} onChange={e=>setMobile(e.target.value)} />
+        <input className="w-full p-2 border mb-3" type="password" placeholder="Password" value={password} onChange={e=>setPassword(e.target.value)} />
+
+        <button className="bg-blue-600 text-white w-full py-2 rounded">Login</button>
+      </form>
+    </div>
+  );
 }
