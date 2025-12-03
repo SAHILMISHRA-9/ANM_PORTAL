@@ -32,7 +32,6 @@ export default function GeneralVisitDetail() {
         if (match) {
           setPerson(match);
 
-          // Mock follow-up history
           setFollowups([
             {
               date: "2024-01-18",
@@ -59,29 +58,44 @@ export default function GeneralVisitDetail() {
     setShowAdd(false);
   };
 
+  /* ---------------- LOADING ---------------- */
   if (loading)
     return (
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <div className="flex-1 ml-64 p-6">Loading…</div>
+        <div className="flex-1 flex flex-col overflow-hidden pl-64">
+          <Navbar />
+          <main className="flex-1 overflow-y-auto p-6 pt-20">Loading…</main>
+        </div>
       </div>
     );
 
+  /* ---------------- NOT FOUND ---------------- */
   if (!person)
     return (
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <div className="flex-1 ml-64 p-6">Record not found</div>
+        <div className="flex-1 flex flex-col overflow-hidden pl-64">
+          <Navbar />
+          <main className="flex-1 overflow-y-auto p-6 pt-20 text-red-600">
+            Record not found
+          </main>
+        </div>
       </div>
     );
 
+  /* ---------------- MAIN PAGE ---------------- */
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar />
-      <div className="flex-1 ml-64">
+
+      {/* Right-side layout */}
+      <div className="flex-1 flex flex-col overflow-hidden pl-64">
         <Navbar />
 
-        <main className="p-6 space-y-6">
+        {/* Scrollable content */}
+        <main className="flex-1 overflow-y-auto p-6 pt-20 space-y-6">
+
           {/* HEADER */}
           <div className="flex justify-between items-center">
             <div>
@@ -105,15 +119,21 @@ export default function GeneralVisitDetail() {
             <h2 className="font-semibold mb-2">Initial Complaint</h2>
 
             <div className="grid grid-cols-2 gap-3 text-sm">
-              <div><span className="text-gray-500">Category:</span> {person.category}</div>
-              <div><span className="text-gray-500">Primary Symptoms:</span> {person.complaint}</div>
+              <div>
+                <span className="text-gray-500">Category:</span> {person.category}
+              </div>
+              <div>
+                <span className="text-gray-500">Primary Symptoms:</span>{" "}
+                {person.complaint}
+              </div>
             </div>
           </section>
 
           {/* FOLLOW-UP HISTORY */}
           <section className="bg-white p-4 rounded shadow">
             <h2 className="font-semibold">
-              Follow-Up Visits <span className="text-sm text-gray-500">({followups.length})</span>
+              Follow-Up Visits{" "}
+              <span className="text-sm text-gray-500">({followups.length})</span>
             </h2>
 
             <div className="mt-3 space-y-3">
@@ -190,6 +210,7 @@ export default function GeneralVisitDetail() {
               </form>
             </section>
           )}
+
         </main>
       </div>
     </div>

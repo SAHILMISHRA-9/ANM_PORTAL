@@ -9,51 +9,80 @@ export default function ASHADetail() {
   const { id } = router.query;
 
   const [asha, setAsha] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!id) return;
+
     async function load() {
       try {
         const res = await axios.get("/api/asha/performance");
         const match = res.data.find((x) => x.id == id);
         if (match) setAsha(match);
       } catch (e) {
-        console.error(e);
+        console.error("ASHA detail error:", e);
+      } finally {
+        setLoading(false);
       }
     }
+
     load();
   }, [id]);
 
+  /* ------------------- LOADING ------------------- */
+  if (loading)
+    return (
+      <div className="flex h-screen overflow-hidden">
+        <Sidebar />
+        <div className="flex-1 flex flex-col overflow-hidden pl-64">
+          <Navbar />
+          <main className="flex-1 overflow-y-auto p-6 pt-20">Loading…</main>
+        </div>
+      </div>
+    );
+
   if (!asha)
     return (
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <div className="ml-64 p-6">Loading...</div>
+        <div className="flex-1 flex flex-col overflow-hidden pl-64">
+          <Navbar />
+          <main className="flex-1 overflow-y-auto p-6 pt-20 text-red-600">
+            ASHA record not found.
+          </main>
+        </div>
       </div>
     );
 
   const breakdown = asha.visitBreakdown;
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar />
-      <div className="flex-1 ml-64">
+
+      {/* RIGHT SIDE AREA */}
+      <div className="flex-1 flex flex-col overflow-hidden pl-64">
         <Navbar />
 
-        <main className="p-6 space-y-6">
+        {/* SCROLL AREA */}
+        <main className="flex-1 overflow-y-auto p-6 pt-20 space-y-6">
+
+          {/* HEADER */}
           <h1 className="text-2xl font-bold">{asha.name}</h1>
 
-          {/* Overview */}
+          {/* OVERVIEW CARD */}
           <section className="bg-white p-4 rounded shadow">
             <h2 className="font-semibold mb-2">Overview</h2>
-            <p>Total Visits: {asha.totalVisits}</p>
-            <p>Completed Tasks: {asha.completedTasks}</p>
-            <p>Pending Tasks: {asha.pendingTasks}</p>
-            <p>High-Risk Cases Identified: {asha.highRiskCases}</p>
-            <p>Last Sync: {asha.lastSync}</p>
+            <div className="grid grid-cols-2 gap-2 text-sm">
+              <p>Total Visits: <b>{asha.totalVisits}</b></p>
+              <p>Completed Tasks: <b>{asha.completedTasks}</b></p>
+              <p>Pending Tasks: <b>{asha.pendingTasks}</b></p>
+              <p>High-Risk Cases Identified: <b>{asha.highRiskCases}</b></p>
+              <p className="col-span-2">Last Sync: {asha.lastSync}</p>
+            </div>
           </section>
 
-          {/* Breakdown */}
+          {/* BREAKDOWN CARD */}
           <section className="bg-white p-4 rounded shadow">
             <h2 className="font-semibold mb-3">Visit Breakdown</h2>
 
@@ -67,7 +96,7 @@ export default function ASHADetail() {
             </div>
           </section>
 
-          {/* Score */}
+          {/* PERFORMANCE SCORE */}
           <section className="bg-white p-4 rounded shadow">
             <h2 className="font-semibold mb-2">Performance Score</h2>
 
@@ -75,10 +104,12 @@ export default function ASHADetail() {
               <div
                 style={{ width: `${asha.performanceScore}%` }}
                 className="h-3 bg-green-600 rounded"
-              ></div>
+              />
             </div>
+
             <p className="mt-2 text-sm">{asha.performanceScore}%</p>
           </section>
+
         </main>
       </div>
     </div>

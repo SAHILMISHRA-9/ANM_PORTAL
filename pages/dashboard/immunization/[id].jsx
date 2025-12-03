@@ -23,8 +23,8 @@ export default function ImmunizationDetail() {
     if (!id) return;
 
     async function load() {
+      setLoading(true);
       try {
-        // Use mock detail based on list for now
         const res = await axios.get("/api/immunization/list");
         const match = res.data.find((c) => c.id == id);
 
@@ -35,7 +35,6 @@ export default function ImmunizationDetail() {
             { vaccine: "OPV1", date: "2024-03-01", remarks: "No issues" },
           ]);
         }
-
       } catch (e) {
         console.error(e);
       } finally {
@@ -58,29 +57,43 @@ export default function ImmunizationDetail() {
     setShowAdd(false);
   };
 
+  /* -------------------- LOADING -------------------- */
   if (loading)
     return (
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <div className="flex-1 ml-64 p-6">Loading…</div>
+        <div className="flex flex-col flex-1 overflow-hidden pl-64">
+          <Navbar />
+          <main className="flex-1 overflow-y-auto p-6 pt-20">Loading…</main>
+        </div>
       </div>
     );
 
   if (!child)
     return (
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <div className="flex-1 ml-64 p-6">Child not found</div>
+        <div className="flex flex-col flex-1 overflow-hidden pl-64">
+          <Navbar />
+          <main className="flex-1 overflow-y-auto p-6 pt-20 text-red-600">
+            Child not found
+          </main>
+        </div>
       </div>
     );
 
+  /* -------------------- MAIN PAGE -------------------- */
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar />
-      <div className="flex-1 ml-64">
+
+      {/* RIGHT REGION */}
+      <div className="flex flex-col flex-1 overflow-hidden pl-64">
         <Navbar />
 
-        <main className="p-6 space-y-6">
+        {/* SCROLLABLE CONTENT */}
+        <main className="flex-1 overflow-y-auto p-6 pt-20 space-y-6">
+
           {/* HEADER */}
           <div className="flex justify-between items-center">
             <div>
@@ -91,14 +104,14 @@ export default function ImmunizationDetail() {
             </div>
 
             <button
-              className="bg-blue-600 text-white px-3 py-2 rounded"
+              className="bg-blue-600 text-white px-3 py-2 rounded shadow"
               onClick={() => setShowAdd(true)}
             >
               + Add Dose
             </button>
           </div>
 
-          {/* CHILD PROFILE */}
+          {/* SUMMARY CARD */}
           <section className="bg-white p-4 rounded shadow">
             <h2 className="font-semibold mb-2">Immunization Summary</h2>
 
@@ -108,7 +121,7 @@ export default function ImmunizationDetail() {
             </div>
           </section>
 
-          {/* DOSE HISTORY */}
+          {/* HISTORY */}
           <section className="bg-white p-4 rounded shadow">
             <h2 className="font-semibold">Vaccination History</h2>
 
@@ -125,12 +138,13 @@ export default function ImmunizationDetail() {
             </div>
           </section>
 
-          {/* ADD DOSE */}
+          {/* ADD DOSE FORM */}
           {showAdd && (
             <section className="bg-white p-4 rounded shadow">
               <h2 className="font-semibold mb-3">Add Vaccination Dose</h2>
 
               <form onSubmit={addDose} className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                
                 <input
                   type="text"
                   placeholder="Vaccine name"
@@ -168,9 +182,11 @@ export default function ImmunizationDetail() {
                     Save Dose
                   </button>
                 </div>
+
               </form>
             </section>
           )}
+
         </main>
       </div>
     </div>

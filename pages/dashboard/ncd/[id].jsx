@@ -30,7 +30,6 @@ export default function NCDDetail() {
 
         if (p) {
           setPerson(p);
-
           setLogs([
             {
               date: "2024-01-05",
@@ -40,7 +39,6 @@ export default function NCDDetail() {
             },
           ]);
         }
-
       } catch (e) {
         console.error(e);
       } finally {
@@ -67,29 +65,44 @@ export default function NCDDetail() {
     }));
   };
 
+  /* ---------------- LOADING ---------------- */
   if (loading)
     return (
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <div className="flex-1 ml-64 p-6">Loading…</div>
+        <div className="flex-1 flex flex-col overflow-hidden pl-64">
+          <Navbar />
+          <main className="flex-1 overflow-y-auto p-6 pt-20">Loading…</main>
+        </div>
       </div>
     );
 
+  /* ---------------- NOT FOUND ---------------- */
   if (!person)
     return (
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <div className="flex-1 ml-64 p-6">Record not found</div>
+        <div className="flex-1 flex flex-col overflow-hidden pl-64">
+          <Navbar />
+          <main className="flex-1 overflow-y-auto p-6 pt-20 text-red-500">
+            Record not found
+          </main>
+        </div>
       </div>
     );
 
+  /* ---------------- MAIN PAGE ---------------- */
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar />
-      <div className="flex-1 ml-64">
+
+      {/* RIGHT SIDE MAIN AREA */}
+      <div className="flex-1 flex flex-col overflow-hidden pl-64">
         <Navbar />
 
-        <main className="p-6 space-y-6">
+        {/* SCROLLABLE PAGE CONTENT */}
+        <main className="flex-1 overflow-y-auto p-6 pt-20 space-y-6">
+
           {/* HEADER */}
           <div className="flex justify-between items-center">
             <div>
@@ -127,7 +140,8 @@ export default function NCDDetail() {
           {/* HISTORY */}
           <section className="bg-white p-4 rounded shadow">
             <h2 className="font-semibold">
-              Recording History <span className="text-sm text-gray-500">({logs.length})</span>
+              Recording History{" "}
+              <span className="text-sm text-gray-500">({logs.length})</span>
             </h2>
 
             <div className="mt-3 space-y-3">
@@ -145,7 +159,7 @@ export default function NCDDetail() {
             </div>
           </section>
 
-          {/* ADD READING */}
+          {/* ADD RECORD */}
           {showAdd && (
             <section className="bg-white p-4 rounded shadow">
               <h2 className="font-semibold mb-3">Add Reading</h2>
@@ -158,6 +172,7 @@ export default function NCDDetail() {
                   className="border p-2 rounded"
                   required
                 />
+
                 <input
                   type="text"
                   placeholder="BP (e.g. 150/90)"
@@ -166,6 +181,7 @@ export default function NCDDetail() {
                   className="border p-2 rounded"
                   required
                 />
+
                 <input
                   type="text"
                   placeholder="Sugar (mg/dl)"
@@ -174,6 +190,7 @@ export default function NCDDetail() {
                   className="border p-2 rounded"
                   required
                 />
+
                 <textarea
                   placeholder="Remarks"
                   value={newLog.remarks}
@@ -189,6 +206,7 @@ export default function NCDDetail() {
                   >
                     Cancel
                   </button>
+
                   <button
                     type="submit"
                     className="px-3 py-2 bg-blue-600 text-white rounded"
@@ -199,6 +217,7 @@ export default function NCDDetail() {
               </form>
             </section>
           )}
+
         </main>
       </div>
     </div>

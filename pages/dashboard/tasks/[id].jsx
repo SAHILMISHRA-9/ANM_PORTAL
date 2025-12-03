@@ -46,33 +46,49 @@ export default function TaskDetails() {
     setProgress(100);
   };
 
+  /* ---------------- LOADING ---------------- */
   if (loading)
     return (
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <div className="ml-64 p-6">Loading...</div>
+        <div className="flex-1 flex flex-col overflow-hidden pl-64">
+          <Navbar />
+          <main className="flex-1 overflow-y-auto p-6 pt-20">Loading…</main>
+        </div>
       </div>
     );
 
+  /* ---------------- NO TASK FOUND ---------------- */
   if (!task)
     return (
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <div className="ml-64 p-6">Task not found.</div>
+        <div className="flex-1 flex flex-col overflow-hidden pl-64">
+          <Navbar />
+          <main className="flex-1 overflow-y-auto p-6 pt-20 text-red-600">
+            Task not found.
+          </main>
+        </div>
       </div>
     );
 
+  /* ---------------- MAIN PAGE ---------------- */
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar />
-      <div className="flex-1 ml-64">
+
+      {/* RIGHT SIDE AREA */}
+      <div className="flex-1 flex flex-col overflow-hidden pl-64">
         <Navbar />
 
-        <main className="p-6 space-y-6">
-          {/* Header */}
-          <div className="flex justify-between">
+        {/* CONTENT SCROLL AREA */}
+        <main className="flex-1 overflow-y-auto p-6 pt-20 space-y-6">
+
+          {/* HEADER */}
+          <div className="flex justify-between items-start">
             <div>
               <h1 className="text-2xl font-bold">{task.title}</h1>
+
               <p className="text-gray-600 text-sm">
                 Assigned by: {task.assignedBy}
               </p>
@@ -92,13 +108,13 @@ export default function TaskDetails() {
             </button>
           </div>
 
-          {/* Description */}
+          {/* TASK DESCRIPTION */}
           <section className="bg-white p-4 rounded shadow">
             <h2 className="font-semibold mb-2">Task Description</h2>
-            <p>{task.description}</p>
+            <p className="text-sm">{task.description}</p>
           </section>
 
-          {/* Progress */}
+          {/* PROGRESS SECTION */}
           <section className="bg-white p-4 rounded shadow">
             <h2 className="font-semibold mb-2">Progress</h2>
 
@@ -106,7 +122,7 @@ export default function TaskDetails() {
               <div
                 style={{ width: `${progress}%` }}
                 className="bg-blue-600 h-3 rounded transition-all"
-              ></div>
+              />
             </div>
 
             <p className="mt-2 text-sm">{progress}% complete</p>
@@ -118,6 +134,7 @@ export default function TaskDetails() {
               Update Progress +
             </button>
           </section>
+
         </main>
       </div>
     </div>

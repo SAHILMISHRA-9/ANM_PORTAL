@@ -10,6 +10,7 @@ export default function FamilyDetail() {
   const { id } = router.query;
 
   const [family, setFamily] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!id) return;
@@ -20,40 +21,64 @@ export default function FamilyDetail() {
         const f = res.data.find((x) => x.id == id);
         setFamily(f);
       } catch (e) {
-        console.error(e);
+        console.error("Family detail error:", e);
+      } finally {
+        setLoading(false);
       }
     }
+
     load();
   }, [id]);
 
-  if (!family)
+  /* ---------------------- LOADING ---------------------- */
+  if (loading)
     return (
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <div className="ml-64 p-6">Loading...</div>
+        <div className="flex-1 flex flex-col overflow-hidden pl-64">
+          <Navbar />
+          <main className="flex-1 overflow-y-auto p-6 pt-20">Loading…</main>
+        </div>
       </div>
     );
 
+  if (!family)
+    return (
+      <div className="flex h-screen overflow-hidden">
+        <Sidebar />
+        <div className="flex-1 flex flex-col overflow-hidden pl-64">
+          <Navbar />
+          <main className="flex-1 overflow-y-auto p-6 pt-20 text-red-600">
+            Family not found.
+          </main>
+        </div>
+      </div>
+    );
+
+  /* ---------------------- MAIN UI ---------------------- */
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar />
-      <div className="flex-1 ml-64">
+
+      <div className="flex-1 flex flex-col overflow-hidden pl-64">
         <Navbar />
 
-        <main className="p-6 space-y-6">
+        <main className="flex-1 overflow-y-auto p-6 pt-20 space-y-6">
+          
+          {/* HEADER */}
           <h1 className="text-2xl font-bold">{family.familyHead} (Family)</h1>
-          <p className="text-gray-600">Village: {family.village}</p>
+          <p className="text-gray-600 text-sm">Village: {family.village}</p>
 
-          {/* Members */}
+          {/* MEMBERS LIST */}
           <section className="bg-white p-4 rounded shadow">
-            <h2 className="font-semibold mb-3">Members</h2>
+            <h2 className="font-semibold mb-3">Family Members</h2>
 
             <div className="space-y-3">
               {family.members.map((m) => (
                 <Link
                   key={m.id}
                   href={`/dashboard/family/member/${m.id}`}
-                  className="block p-3 border rounded hover:bg-gray-50"
+                  className="block p-3 border rounded hover:bg-gray-50 transition"
                 >
                   <p className="text-lg font-medium">{m.name}</p>
                   <p className="text-sm text-gray-600">

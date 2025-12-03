@@ -1,23 +1,36 @@
-import '../styles/globals.css'
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
-
+// pages/_app.js
+import "../styles/globals.css";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }) {
-const router = useRouter()
+  const router = useRouter();
+  const [ready, setReady] = useState(false);
 
+  useEffect(() => {
+    const token = localStorage.getItem("anm_token");
+    const role = localStorage.getItem("role");
 
-useEffect(() => {
-// simple auth redirect for protected routes (client-side)
-const publicPaths = ['/login', '/api']
-const token = typeof window !== 'undefined' ? localStorage.getItem('anm_token') : null
+    const publicRoutes = ["/login"];
 
+    // 🚀 Allow login page freely
+    if (publicRoutes.includes(router.pathname)) {
+      setReady(true);
+      return;
+    }
 
-if (!token && !publicPaths.includes(router.pathname)) {
-router.push('/login')
-}
-}, [router])
+    // 🚀 If token missing → send to login
+    if (!token) {
+      window.location.replace("/login");
+      return;
+    }
 
+    // 🚀 Token exists → allow dashboard or protected page
+    setReady(true);
+  }, [router.pathname]);
 
-return <Component {...pageProps} />
+  // Prevent flicker/loop
+  if (!ready) return null;
+
+  return <Component {...pageProps} />;
 }

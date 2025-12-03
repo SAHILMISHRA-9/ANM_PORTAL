@@ -25,6 +25,7 @@ export default function ANCDetail() {
 
   useEffect(() => {
     if (!id) return;
+
     async function load() {
       try {
         const res = await axios.get(`/api/anc/detail?id=${id}`);
@@ -43,12 +44,12 @@ export default function ANCDetail() {
 
     const visit = {
       id: Date.now(),
-      ...newVisit
+      ...newVisit,
     };
 
     setData((prev) => ({
       ...prev,
-      visits: [visit, ...prev.visits]
+      visits: [visit, ...prev.visits],
     }));
 
     setShowAdd(false);
@@ -74,19 +75,22 @@ export default function ANCDetail() {
         {
           severity: "high",
           label: "Marked High-Risk by ANM",
-          note: "Needs follow-up"
-        }
-      ]
+          note: "Needs follow-up",
+        },
+      ],
     }));
   };
 
+  /* ---------- LOADING ---------- */
   if (loading) {
     return (
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <div className="flex-1 ml-64">
+        <div className="flex flex-col flex-1 overflow-hidden pl-64">
           <Navbar />
-          <main className="p-6">Loading ANC details…</main>
+          <main className="flex-1 overflow-y-auto p-6 pt-20">
+            Loading ANC details…
+          </main>
         </div>
       </div>
     );
@@ -94,11 +98,13 @@ export default function ANCDetail() {
 
   if (!data) {
     return (
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <div className="flex-1 ml-64">
+        <div className="flex flex-col flex-1 overflow-hidden pl-64">
           <Navbar />
-          <main className="p-6 text-red-500">Record not found.</main>
+          <main className="flex-1 overflow-y-auto p-6 pt-20 text-red-500">
+            Record not found.
+          </main>
         </div>
       </div>
     );
@@ -106,13 +112,17 @@ export default function ANCDetail() {
 
   const { mother, visits, riskFlags } = data;
 
+  /* ---------- MAIN LAYOUT ---------- */
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar />
-      <div className="flex-1 ml-64">
+
+      {/* MAIN AREA */}
+      <div className="flex flex-col flex-1 overflow-hidden pl-64">
         <Navbar />
 
-        <main className="p-6 space-y-6">
+        {/* SCROLLABLE CONTENT */}
+        <main className="flex-1 overflow-y-auto p-6 pt-20 space-y-6">
 
           {/* HEADER */}
           <div className="flex justify-between items-center">
@@ -152,13 +162,15 @@ export default function ANCDetail() {
               <div><span className="text-gray-500">Parity:</span> {mother.parity}</div>
             </div>
 
-            {/* Risk flags */}
             {riskFlags.length > 0 && (
               <div className="mt-4">
                 <h3 className="font-medium text-red-600">Risk Flags</h3>
                 <div className="mt-2 space-y-2">
                   {riskFlags.map((r, i) => (
-                    <div key={i} className="bg-red-50 border-l-4 border-red-300 p-2 rounded">
+                    <div
+                      key={i}
+                      className="bg-red-50 border-l-4 border-red-300 p-2 rounded"
+                    >
                       <div className="text-sm font-medium">{r.label}</div>
                       <div className="text-xs text-gray-500">{r.note}</div>
                     </div>
@@ -203,11 +215,16 @@ export default function ANCDetail() {
             <section className="bg-white p-4 rounded shadow">
               <h2 className="font-semibold mb-3">Add New ANC Visit</h2>
 
-              <form onSubmit={addVisit} className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <form
+                onSubmit={addVisit}
+                className="grid grid-cols-1 md:grid-cols-2 gap-3"
+              >
                 <input
                   type="date"
                   value={newVisit.date}
-                  onChange={(e) => setNewVisit({ ...newVisit, date: e.target.value })}
+                  onChange={(e) =>
+                    setNewVisit({ ...newVisit, date: e.target.value })
+                  }
                   className="border px-3 py-2 rounded"
                   required
                 />
@@ -216,7 +233,9 @@ export default function ANCDetail() {
                   type="text"
                   placeholder="Blood Pressure (e.g. 120/80)"
                   value={newVisit.bp}
-                  onChange={(e) => setNewVisit({ ...newVisit, bp: e.target.value })}
+                  onChange={(e) =>
+                    setNewVisit({ ...newVisit, bp: e.target.value })
+                  }
                   className="border px-3 py-2 rounded"
                   required
                 />
@@ -225,7 +244,9 @@ export default function ANCDetail() {
                   type="text"
                   placeholder="HB level (e.g. 10.5)"
                   value={newVisit.hb}
-                  onChange={(e) => setNewVisit({ ...newVisit, hb: e.target.value })}
+                  onChange={(e) =>
+                    setNewVisit({ ...newVisit, hb: e.target.value })
+                  }
                   className="border px-3 py-2 rounded"
                   required
                 />
@@ -234,7 +255,9 @@ export default function ANCDetail() {
                   type="text"
                   placeholder="Weight"
                   value={newVisit.weight}
-                  onChange={(e) => setNewVisit({ ...newVisit, weight: e.target.value })}
+                  onChange={(e) =>
+                    setNewVisit({ ...newVisit, weight: e.target.value })
+                  }
                   className="border px-3 py-2 rounded"
                 />
 
@@ -261,7 +284,9 @@ export default function ANCDetail() {
                 <textarea
                   placeholder="Notes"
                   value={newVisit.notes}
-                  onChange={(e) => setNewVisit({ ...newVisit, notes: e.target.value })}
+                  onChange={(e) =>
+                    setNewVisit({ ...newVisit, notes: e.target.value })
+                  }
                   className="border px-3 py-2 rounded md:col-span-2"
                 />
 
@@ -269,7 +294,9 @@ export default function ANCDetail() {
                   type="text"
                   placeholder="ASHA worker name"
                   value={newVisit.asha}
-                  onChange={(e) => setNewVisit({ ...newVisit, asha: e.target.value })}
+                  onChange={(e) =>
+                    setNewVisit({ ...newVisit, asha: e.target.value })
+                  }
                   className="border px-3 py-2 rounded"
                   required
                 />

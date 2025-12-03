@@ -31,7 +31,6 @@ export default function TBDetails() {
         if (r) {
           setRecord(r);
 
-          // TB visits mock data
           setVisits([
             {
               date: "2024-01-05",
@@ -74,29 +73,45 @@ export default function TBDetails() {
     setRecord((prev) => ({ ...prev, status: "high-risk" }));
   };
 
+  /* ---------------------------------------------------
+     LOADING + NOT FOUND
+  --------------------------------------------------- */
   if (loading)
     return (
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <div className="flex-1 ml-64 p-6">Loading...</div>
+        <div className="flex flex-col flex-1 overflow-hidden pl-64">
+          <Navbar />
+          <main className="flex-1 overflow-y-auto p-6 pt-20">Loading...</main>
+        </div>
       </div>
     );
 
   if (!record)
     return (
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <div className="flex-1 ml-64 p-6">Record not found.</div>
+        <div className="flex flex-col flex-1 overflow-hidden pl-64">
+          <Navbar />
+          <main className="flex-1 overflow-y-auto p-6 pt-20 text-red-500">
+            Record not found.
+          </main>
+        </div>
       </div>
     );
 
+  /* ---------------------------------------------------
+     MAIN PAGE
+  --------------------------------------------------- */
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar />
-      <div className="flex-1 ml-64">
+
+      <div className="flex flex-col flex-1 overflow-hidden pl-64">
         <Navbar />
 
-        <main className="p-6 space-y-6">
+        <main className="flex-1 overflow-y-auto p-6 pt-20 space-y-6">
+
           {/* HEADER */}
           <div className="flex justify-between items-center">
             <div>
@@ -133,9 +148,7 @@ export default function TBDetails() {
             <h2 className="font-semibold">Symptoms</h2>
             <ul className="mt-2 text-sm space-y-1">
               {record.symptoms.map((s, i) => (
-                <li key={i} className="text-gray-700">
-                  • {s}
-                </li>
+                <li key={i} className="text-gray-700">• {s}</li>
               ))}
             </ul>
           </section>
@@ -148,7 +161,7 @@ export default function TBDetails() {
 
             <div className="mt-3 space-y-3">
               {visits.map((v, i) => (
-                <div key={i} className="border p-3 rounded">
+                <div key={i} className="border p-3 rounded hover:shadow-sm">
                   <div className="flex justify-between">
                     <div className="font-medium">{v.date}</div>
                     <div className="text-sm text-gray-600">Sputum: {v.sputum}</div>
@@ -169,30 +182,41 @@ export default function TBDetails() {
                 <input
                   type="date"
                   value={newVisit.date}
-                  onChange={(e) => setNewVisit({ ...newVisit, date: e.target.value })}
+                  onChange={(e) =>
+                    setNewVisit({ ...newVisit, date: e.target.value })
+                  }
                   className="border p-2 rounded"
                   required
                 />
+
                 <input
                   type="text"
                   placeholder="Weight"
                   value={newVisit.weight}
-                  onChange={(e) => setNewVisit({ ...newVisit, weight: e.target.value })}
+                  onChange={(e) =>
+                    setNewVisit({ ...newVisit, weight: e.target.value })
+                  }
                   className="border p-2 rounded"
                   required
                 />
+
                 <input
                   type="text"
                   placeholder="Sputum result"
                   value={newVisit.sputum}
-                  onChange={(e) => setNewVisit({ ...newVisit, sputum: e.target.value })}
+                  onChange={(e) =>
+                    setNewVisit({ ...newVisit, sputum: e.target.value })
+                  }
                   className="border p-2 rounded"
                   required
                 />
+
                 <textarea
                   placeholder="Remarks"
                   value={newVisit.remarks}
-                  onChange={(e) => setNewVisit({ ...newVisit, remarks: e.target.value })}
+                  onChange={(e) =>
+                    setNewVisit({ ...newVisit, remarks: e.target.value })
+                  }
                   className="border p-2 rounded col-span-2"
                 />
 
@@ -204,13 +228,17 @@ export default function TBDetails() {
                   >
                     Cancel
                   </button>
-                  <button type="submit" className="px-3 py-2 bg-green-600 text-white rounded">
+                  <button
+                    type="submit"
+                    className="px-3 py-2 bg-green-600 text-white rounded"
+                  >
                     Save Visit
                   </button>
                 </div>
               </form>
             </section>
           )}
+
         </main>
       </div>
     </div>
