@@ -1,4 +1,4 @@
-import { assignAshaToTasks } from "../../../../../data/tasksDb";
+import { assignAshaToTasks } from "../../../../../data/tasksDb.js";
 import { getSurvey } from "../../../../../data/surveyDb";
 
 export default function handler(req, res) {

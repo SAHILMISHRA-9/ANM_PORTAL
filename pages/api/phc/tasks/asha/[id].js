@@ -1,5 +1,5 @@
 // pages/api/phc/tasks/asha/[id].js
-import { getTasksForAsha } from "../../../../../data/tasksDb";
+import { getTasksForAsha } from "../../../../../data/tasksDb.js";
 
 export default function handler(req, res) {
   const { id } = req.query;

@@ -1,5 +1,5 @@
 // pages/api/phc/tasks/survey/[id].js
-import { getTasksForSurvey } from "../../../../../data/tasksDb";
+import { getTasksForSurvey } from "../../../../../data/tasksDb.js";
 
 export default function handler(req, res) {
   const { id } = req.query;

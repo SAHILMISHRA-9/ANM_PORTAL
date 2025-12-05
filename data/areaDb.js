@@ -1,4 +1,3 @@
-// data/areaDb.js
 let areas = [
   { id: 1, name: "Rampur", description: "Rampur village", coverage: 52, anm_ids: [1], asha_ids: [1] },
   { id: 2, name: "Nandpur", description: "Nandpur hamlet", coverage: 30, anm_ids: [], asha_ids: [] }
@@ -68,3 +67,6 @@ export function unassignASHA(areaId, ashaId) {
   area.asha_ids = area.asha_ids.filter(x => x !== Number(ashaId));
   return area;
 }
+
+// ➕ ADD THIS EXPORT
+export { areas };

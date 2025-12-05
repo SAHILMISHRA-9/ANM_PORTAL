@@ -1,6 +1,6 @@
 // pages/api/phc/tasks/generate/[id].js
 
-import { createTasksForSurvey } from "../../../../../data/tasksDb";
+import { createTasksForSurvey } from "../../../../../data/tasksDb.js";
 import { getSurvey, updateSurvey } from "../../../../../data/surveyDb";
 
 export default function handler(req, res) {
