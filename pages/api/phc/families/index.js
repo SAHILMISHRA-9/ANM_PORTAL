@@ -1,5 +1,5 @@
 // pages/api/phc/families/index.js
-import { getAllFamilies } from "../../../../data/familyDb";
+import { getAllFamilies, addFamily } from "../../../../data/familyDb";
 
 export default function handler(req, res) {
   if (req.method === "GET") {
@@ -12,16 +12,23 @@ export default function handler(req, res) {
     }
   }
 
-  // optional POST create (basic)
+  // simple POST create family
   if (req.method === "POST") {
     try {
       const body = req.body || {};
-      // addFamily not exported? if you added it in data file, use it, otherwise respond 405
-      // For now just 405 (unless you need create now)
-      return res.status(405).json({ error: "Create not implemented in this demo" });
+      if (!body.address && !body.area_id) {
+        return res.status(400).json({ error: "Provide address or area_id" });
+      }
+      const created = addFamily({
+        address: body.address,
+        area_id: body.area_id,
+        asha_id: body.asha_id,
+        anm_id: body.anm_id
+      });
+      return res.status(201).json(created);
     } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Failed" });
+      console.error("Create family error:", err);
+      return res.status(500).json({ error: "Failed to create family" });
     }
   }
 

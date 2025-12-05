@@ -16,6 +16,22 @@ let tasks = [];
 let nextTaskId = 1;
 
 // ----------------- CORE CRUD -----------------
+export function addTask(data) {
+  const t = {
+    id: nextTaskId++,
+    survey_id: data.survey_id || null,
+    family_id: data.family_id || null,
+    member_id: data.member_id || null,
+    assigned_asha: data.assigned_asha || null,
+    assigned_anm: data.assigned_anm || null,
+    status: "pending",
+    high_risk: false,
+    created_at: new Date().toISOString()
+  };
+
+  tasks.push(t);
+  return t;
+}
 
 export function createTasksForSurvey(surveyId, areaId, count) {
   const survey = getSurvey(surveyId);

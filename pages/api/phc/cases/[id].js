@@ -1,12 +1,17 @@
 // pages/api/phc/cases/[id].js
-import { getCase, updateCase, deleteCase } from "../../../../data/healthRecordsDb";
+import { getCase, updateCase, deleteCase } from "../../../../data/familyDb";
 
 export default function handler(req, res) {
   const { id } = req.query;
   if (req.method === "GET") {
-    const t = getCase(id);
-    if (!t) return res.status(404).json({ error: "Not found" });
-    return res.status(200).json(t);
+    try {
+      const c = getCase(id);
+      if (!c) return res.status(404).json({ error: "Not found" });
+      return res.status(200).json(c);
+    } catch (err) {
+      console.error("Get case error:", err);
+      return res.status(500).json({ error: "Failed to fetch case" });
+    }
   }
 
   if (req.method === "PUT") {
@@ -22,9 +27,14 @@ export default function handler(req, res) {
   }
 
   if (req.method === "DELETE") {
-    const ok = deleteCase(id);
-    if (!ok) return res.status(404).json({ error: "Not found" });
-    return res.status(200).json({ success: true });
+    try {
+      const ok = deleteCase(id);
+      if (!ok) return res.status(404).json({ error: "Not found" });
+      return res.status(200).json({ success: true });
+    } catch (err) {
+      console.error("Delete case error:", err);
+      return res.status(500).json({ error: "Failed to delete" });
+    }
   }
 
   res.status(405).json({ error: "Method not allowed" });

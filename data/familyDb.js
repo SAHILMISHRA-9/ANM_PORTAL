@@ -20,8 +20,8 @@ let visits = [
 ];
 
 let cases = [
-  { id: 1, family_id: 1, member_id: 1, category: "ANC", risk_level: "high", created_at: "2025-01-10", updated_at: "2025-01-10" },
-  { id: 2, family_id: 2, member_id: 4, category: "NCD", risk_level: "normal", created_at: "2025-02-15", updated_at: "2025-02-15" }
+  { id: 1, family_id: 1, member_id: 1, category: "ANC", risk_level: "high", created_at: "2025-01-10", updated_at: "2025-01-10", notes: "" },
+  { id: 2, family_id: 2, member_id: 4, category: "NCD", risk_level: "normal", created_at: "2025-02-15", updated_at: "2025-02-15", notes: "" }
 ];
 
 // Helpers to compute stats
@@ -95,4 +95,45 @@ export function addMember(data) {
   };
   familyMembers.push(newM);
   return newM;
+}
+
+// -------------------- CASES (health records) --------------------
+// Add / read / update / delete case records (used by /api/phc/cases/*)
+
+export function getCase(caseId) {
+  return cases.find(c => c.id === Number(caseId)) || null;
+}
+
+export function addCase(data) {
+  const newCase = {
+    id: cases.length + 1,
+    family_id: Number(data.family_id),
+    member_id: data.member_id ? Number(data.member_id) : null,
+    category: data.category || "General",
+    risk_level: data.risk_level || "normal",
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    notes: data.notes || ""
+  };
+  cases.push(newCase);
+  return newCase;
+}
+
+export function updateCase(caseId, updates) {
+  const idx = cases.findIndex(c => c.id === Number(caseId));
+  if (idx === -1) return null;
+  cases[idx] = { ...cases[idx], ...updates, updated_at: new Date().toISOString() };
+  return cases[idx];
+}
+
+export function deleteCase(caseId) {
+  const idx = cases.findIndex(c => c.id === Number(caseId));
+  if (idx === -1) return false;
+  cases.splice(idx, 1);
+  return true;
+}
+
+// Expose internal arrays for dev/debug if needed
+export function _debug_lists() {
+  return { families, familyMembers, visits, cases };
 }
