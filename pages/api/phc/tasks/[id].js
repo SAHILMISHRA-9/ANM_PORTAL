@@ -1,5 +1,5 @@
 // pages/api/phc/tasks/[id].js
-import { updateTask, getTask } from "../../../../../data/tasksDb";
+import { updateTask, getTask } from "../../../../data/tasksDb";
 
 
 export default function handler(req, res) {

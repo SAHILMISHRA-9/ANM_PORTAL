@@ -1,4 +1,4 @@
-import PHCSidebar from "../../components/layout/PHCSidebar.jsx";
+import PHCSidebar from "../../components/layout/SidebarPHC.jsx";
 import Navbar from "../../components/layout/Navbar"; // reuse same navbar
 
 export default function PHCDashboard() {

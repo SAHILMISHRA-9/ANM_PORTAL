@@ -1,4 +1,4 @@
-import db from "../../../lib/db"; // adjust path if needed
+import db from "../../../utils/db"; // adjust path if needed
 
 export default async function handler(req, res) {
   try {
