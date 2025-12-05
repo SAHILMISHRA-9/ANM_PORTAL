@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Sidebar from "../../../components/layout/Sidebar";
+import SidebarANM from "../../../components/layout/SidebarANM.jsx";
 import Navbar from "../../../components/layout/Navbar";
 import axios from "axios";
 
@@ -50,7 +50,7 @@ export default function TaskDetails() {
   if (loading)
     return (
       <div className="flex h-screen overflow-hidden">
-        <Sidebar />
+        <SidebarANM />
         <div className="flex-1 flex flex-col overflow-hidden pl-64">
           <Navbar />
           <main className="flex-1 overflow-y-auto p-6 pt-20">Loading…</main>
@@ -62,7 +62,7 @@ export default function TaskDetails() {
   if (!task)
     return (
       <div className="flex h-screen overflow-hidden">
-        <Sidebar />
+        <SidebarANM />
         <div className="flex-1 flex flex-col overflow-hidden pl-64">
           <Navbar />
           <main className="flex-1 overflow-y-auto p-6 pt-20 text-red-600">
@@ -75,7 +75,7 @@ export default function TaskDetails() {
   /* ---------------- MAIN PAGE ---------------- */
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar />
+      <SidebarANM />
 
       {/* RIGHT SIDE AREA */}
       <div className="flex-1 flex flex-col overflow-hidden pl-64">

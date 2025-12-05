@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Sidebar from "../../../components/layout/Sidebar";
+import SidebarANM from "../../../components/layout/SidebarANM.jsx";
 import Navbar from "../../../components/layout/Navbar";
 import axios from "axios";
 
@@ -69,7 +69,7 @@ export default function NCDDetail() {
   if (loading)
     return (
       <div className="flex h-screen overflow-hidden">
-        <Sidebar />
+        <SidebarANM />
         <div className="flex-1 flex flex-col overflow-hidden pl-64">
           <Navbar />
           <main className="flex-1 overflow-y-auto p-6 pt-20">Loading…</main>
@@ -81,7 +81,7 @@ export default function NCDDetail() {
   if (!person)
     return (
       <div className="flex h-screen overflow-hidden">
-        <Sidebar />
+        <SidebarANM />
         <div className="flex-1 flex flex-col overflow-hidden pl-64">
           <Navbar />
           <main className="flex-1 overflow-y-auto p-6 pt-20 text-red-500">
@@ -94,7 +94,7 @@ export default function NCDDetail() {
   /* ---------------- MAIN PAGE ---------------- */
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar />
+      <SidebarANM />
 
       {/* RIGHT SIDE MAIN AREA */}
       <div className="flex-1 flex flex-col overflow-hidden pl-64">

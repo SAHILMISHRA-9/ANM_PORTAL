@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Sidebar from "../../../components/layout/Sidebar";
+import SidebarANM from "../../../components/layout/SidebarANM.jsx";
 import Navbar from "../../../components/layout/Navbar";
 import axios from "axios";
 
@@ -85,7 +85,7 @@ export default function ANCDetail() {
   if (loading) {
     return (
       <div className="flex h-screen overflow-hidden">
-        <Sidebar />
+        <SidebarANM />
         <div className="flex flex-col flex-1 overflow-hidden pl-64">
           <Navbar />
           <main className="flex-1 overflow-y-auto p-6 pt-20">
@@ -99,7 +99,7 @@ export default function ANCDetail() {
   if (!data) {
     return (
       <div className="flex h-screen overflow-hidden">
-        <Sidebar />
+        <SidebarANM />
         <div className="flex flex-col flex-1 overflow-hidden pl-64">
           <Navbar />
           <main className="flex-1 overflow-y-auto p-6 pt-20 text-red-500">
@@ -115,7 +115,7 @@ export default function ANCDetail() {
   /* ---------- MAIN LAYOUT ---------- */
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar />
+      <SidebarANM />
 
       {/* MAIN AREA */}
       <div className="flex flex-col flex-1 overflow-hidden pl-64">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Sidebar from "../../../components/layout/Sidebar";
+import SidebarANM from "../../../components/layout/SidebarANM.jsx";
 import Navbar from "../../../components/layout/Navbar";
 import axios from "axios";
 import Link from "next/link";
@@ -26,7 +26,7 @@ export default function FamilyList() {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
+      <SidebarANM />
       <div className="flex-1 ml-64">
         <Navbar />
 

@@ -1,46 +1,22 @@
-// components/layout/Navbar.jsx
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import React from "react";
 
 export default function Navbar() {
-  const router = useRouter();
-  const [role, setRole] = useState("");
-
-  useEffect(() => {
-    const r = localStorage.getItem("role");
-    if (r) setRole(r);
-  }, []);
-
-  const handleLogout = () => {
-    // 🔥 Remove localStorage auth
-    localStorage.removeItem("anm_token");
-    localStorage.removeItem("role");
-
-    // 🔥 Remove cookies (VERY IMPORTANT)
-    document.cookie = "auth_token=; Max-Age=0; path=/;";
-    document.cookie = "auth_role=; Max-Age=0; path=/;";
-
-    // 🔥 Hard redirect (bypass router)
-    window.location.replace("/login");
+  const logout = () => {
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("auth_role");
+    // clear cookies if used
+    document.cookie = "auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    window.location.href = "/login";
   };
 
   return (
-    <header
-      className="
-        bg-white shadow p-4 flex items-center justify-end
-        fixed top-0 right-0 left-64 z-50
-      "
-    >
-      <div className="mr-4 text-sm font-semibold text-gray-700">
-        {role ? role : "GUEST"}
+    <div className="bg-white border-b">
+      <div className="flex items-center justify-between p-4">
+        <div className="text-sm text-gray-600">PHC</div>
+        <div>
+          <button onClick={logout} className="bg-red-500 text-white px-3 py-1 rounded">Logout</button>
+        </div>
       </div>
-
-      <button
-        onClick={handleLogout}
-        className="bg-red-500 text-white px-3 py-1 rounded-md"
-      >
-        Logout
-      </button>
-    </header>
+    </div>
   );
 }

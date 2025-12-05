@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Sidebar from "../../../components/layout/Sidebar";
+import SidebarANM from "../../../components/layout/SidebarANM.jsx";
 import Navbar from "../../../components/layout/Navbar";
 import axios from "axios";
 
@@ -79,7 +79,7 @@ export default function TBDetails() {
   if (loading)
     return (
       <div className="flex h-screen overflow-hidden">
-        <Sidebar />
+        <SidebarANM />
         <div className="flex flex-col flex-1 overflow-hidden pl-64">
           <Navbar />
           <main className="flex-1 overflow-y-auto p-6 pt-20">Loading...</main>
@@ -90,7 +90,7 @@ export default function TBDetails() {
   if (!record)
     return (
       <div className="flex h-screen overflow-hidden">
-        <Sidebar />
+        <SidebarANM />
         <div className="flex flex-col flex-1 overflow-hidden pl-64">
           <Navbar />
           <main className="flex-1 overflow-y-auto p-6 pt-20 text-red-500">
@@ -105,7 +105,7 @@ export default function TBDetails() {
   --------------------------------------------------- */
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar />
+      <SidebarANM />
 
       <div className="flex flex-col flex-1 overflow-hidden pl-64">
         <Navbar />

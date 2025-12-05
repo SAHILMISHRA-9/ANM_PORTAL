@@ -1,14 +1,28 @@
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
+export default function ProtectedRoute({ children, role }) {
+  const router = useRouter();
+  const [ready, setReady] = useState(false);
 
-export default function ProtectedRoute({ children }) {
-const router = useRouter()
-useEffect(() => {
-const token = localStorage.getItem('anm_token')
-if (!token) router.push('/login')
-}, [])
+  useEffect(() => {
+    if (!router.isReady) return;
+    const token = localStorage.getItem("auth_token");
+    const userRole = localStorage.getItem("auth_role");
 
+    if (!token || !userRole) {
+      router.replace("/login");
+      return;
+    }
 
-return children
+    if (role && role !== userRole) {
+      router.replace("/login");
+      return;
+    }
+
+    setReady(true);
+  }, [router.isReady, role]);
+
+  if (!ready) return <div className="w-full h-screen bg-gray-100"></div>;
+  return children;
 }

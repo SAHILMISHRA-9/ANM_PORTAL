@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Sidebar from "../../../components/layout/Sidebar";
+import SidebarANM from "../../../components/layout/SidebarANM.jsx";
 import Navbar from "../../../components/layout/Navbar";
 import axios from "axios";
 
@@ -61,7 +61,7 @@ export default function ImmunizationDetail() {
   if (loading)
     return (
       <div className="flex h-screen overflow-hidden">
-        <Sidebar />
+        <SidebarANM />
         <div className="flex flex-col flex-1 overflow-hidden pl-64">
           <Navbar />
           <main className="flex-1 overflow-y-auto p-6 pt-20">Loading…</main>
@@ -72,7 +72,7 @@ export default function ImmunizationDetail() {
   if (!child)
     return (
       <div className="flex h-screen overflow-hidden">
-        <Sidebar />
+        <SidebarANM />
         <div className="flex flex-col flex-1 overflow-hidden pl-64">
           <Navbar />
           <main className="flex-1 overflow-y-auto p-6 pt-20 text-red-600">
@@ -85,7 +85,7 @@ export default function ImmunizationDetail() {
   /* -------------------- MAIN PAGE -------------------- */
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar />
+      <SidebarANM />
 
       {/* RIGHT REGION */}
       <div className="flex flex-col flex-1 overflow-hidden pl-64">

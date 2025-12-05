@@ -1,4 +1,4 @@
-import Sidebar from "../../../../components/layout/Sidebar";
+import SidebarANM from "../../../../components/layout/SidebarANM.jsx";
 import Navbar from "../../../../components/layout/Navbar";
 
 

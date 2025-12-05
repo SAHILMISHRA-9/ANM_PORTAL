@@ -1,7 +1,7 @@
 // pages/dashboard/pnc/[id].jsx
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Sidebar from "../../../components/layout/Sidebar";
+import SidebarANM from "../../../components/layout/SidebarANM.jsx";
 import Navbar from "../../../components/layout/Navbar";
 import axios from "axios";
 
@@ -87,7 +87,7 @@ export default function PNCDetail() {
   if (loading) {
     return (
       <div className="flex h-screen overflow-hidden">
-        <Sidebar />
+        <SidebarANM />
         <div className="flex flex-col flex-1 overflow-hidden pl-64">
           <Navbar />
           <main className="p-6 pt-20 flex-1 overflow-y-auto">Loading PNC detail…</main>
@@ -99,7 +99,7 @@ export default function PNCDetail() {
   if (!data) {
     return (
       <div className="flex h-screen overflow-hidden">
-        <Sidebar />
+        <SidebarANM />
         <div className="flex flex-col flex-1 overflow-hidden pl-64">
           <Navbar />
           <main className="p-6 pt-20 flex-1 overflow-y-auto text-red-600">
@@ -115,7 +115,7 @@ export default function PNCDetail() {
   /* ------------------ MAIN LAYOUT ------------------ */
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar />
+      <SidebarANM />
 
       {/* MAIN REGION */}
       <div className="flex flex-col flex-1 overflow-hidden pl-64">
