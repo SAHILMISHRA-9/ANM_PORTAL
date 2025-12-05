@@ -1,3 +1,4 @@
+// pages/phc/tasks/new.jsx
 import { useState } from "react";
 import axios from "axios";
 import SidebarPHC from "../../../components/layout/SidebarPHC";
@@ -38,22 +39,43 @@ export default function NewTask() {
       <SidebarPHC />
       <div className="flex-1 ml-60">
         <Navbar />
+
         <main className="p-6 mt-16 max-w-lg">
           <h1 className="text-2xl font-bold mb-4">Create Task</h1>
 
           <label>Family ID</label>
-          <input className="w-full border p-2 mb-4" value={familyId} onChange={e => setFamilyId(e.target.value)} />
+          <input
+            className="w-full border p-2 mb-4"
+            value={familyId}
+            onChange={e => setFamilyId(e.target.value)}
+          />
 
           <label>Member ID</label>
-          <input className="w-full border p-2 mb-4" value={memberId} onChange={e => setMemberId(e.target.value)} />
+          <input
+            className="w-full border p-2 mb-4"
+            value={memberId}
+            onChange={e => setMemberId(e.target.value)}
+          />
 
           <label>ASHA ID</label>
-          <input className="w-full border p-2 mb-4" value={ashaId} onChange={e => setAshaId(e.target.value)} />
+          <input
+            className="w-full border p-2 mb-4"
+            value={ashaId}
+            onChange={e => setAshaId(e.target.value)}
+          />
 
           <label>ANM ID</label>
-          <input className="w-full border p-2 mb-4" value={anmId} onChange={e => setAnmId(e.target.value)} />
+          <input
+            className="w-full border p-2 mb-4"
+            value={anmId}
+            onChange={e => setAnmId(e.target.value)}
+          />
 
-          <button onClick={save} disabled={saving} className="px-4 py-2 bg-blue-600 text-white rounded">
+          <button
+            onClick={save}
+            disabled={saving}
+            className="px-4 py-2 bg-blue-600 text-white rounded"
+          >
             {saving ? "Saving..." : "Create Task"}
           </button>
         </main>
