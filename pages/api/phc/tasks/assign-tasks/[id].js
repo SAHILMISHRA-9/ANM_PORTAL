@@ -1,6 +1,6 @@
 // pages/api/phc/tasks/assign-tasks/[id].js
 import { assignASHAtoSurveyTasks } from "../../../../../data/tasksDb";
-import { getSurvey } from "../../../../../../data/surveyDb";
+import { getSurvey } from "../../../../../data/surveyDb";
 
 export default function handler(req, res) {
   const { id } = req.query;
